@@ -1,22 +1,41 @@
 import { useState } from "react";
 import AddExpenseForm from "./Expenditure";
-import Earning from "./Earning";
+import AddSalaryForm from "./Earning";
+import TransactionList from "./TransactionList";
+import type { Transaction } from "../schema/transaction";
+import type { ExpenseFormData } from "../schema/expenseSchema";
+import type { SalaryFormData } from "../schema/salarySchema";
 
-export default function GainorLoss() {
+interface GainorLossProps {
+  transactions: Transaction[];
+  setTransactions: React.Dispatch<React.SetStateAction<Transaction[]>>;
+}
+
+export default function GainorLoss({
+  transactions,
+  setTransactions,
+}: GainorLossProps) {
   const [active, setActive] = useState<string | null>(null);
 
-  const handleAddExpense = (data: {
-    amount: number;
-    category:
-      | "Food"
-      | "Transport"
-      | "Rent"
-      | "Utilities"
-      | "Entertainment"
-      | "Other";
-    description?: string;
-  }) => {
-    console.log("Expense added:", data);
+  const handleAddExpense = (data: ExpenseFormData) => {
+    const newTransaction: Transaction = {
+      type: "expense",
+      id: crypto.randomUUID(),
+      ...data,
+    };
+    setTransactions((prev) => [...prev, newTransaction]);
+    setActive(null); // closes the form after submit
+  };
+
+  const handleAddSalary = (data: SalaryFormData) => {
+    const newTransaction: Transaction = {
+      type: "salary",
+      id: crypto.randomUUID(),
+      ...data,
+    };
+    setTransactions((prev) => [...prev, newTransaction]);
+    setActive(null);
+    
   };
 
   return (
@@ -24,9 +43,13 @@ export default function GainorLoss() {
       <button onClick={() => setActive("Earn")}>Add Earning </button>
       <button onClick={() => setActive("Spent")}>Add Expenditure </button>
 
-      {active === "Earn" && <Earning />}
+      {active === "Earn" && <AddSalaryForm onAddSalary={handleAddSalary} />}
       {active === "Spent" && <AddExpenseForm onAddExpense={handleAddExpense} />}
       {/* Only load this particular component when active has that value and it can only be set when clicking the button */}
+
+      <TransactionList transactions={transactions}/>
     </div>
   );
 }
+
+
