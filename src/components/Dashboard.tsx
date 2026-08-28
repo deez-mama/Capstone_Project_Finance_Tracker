@@ -1,3 +1,4 @@
+import { Card, CardContent, Typography, Stack } from "@mui/material";
 import type { Transaction } from "../schema/transaction";
 
 interface DashboardProps {
@@ -20,19 +21,42 @@ export default function Dashboard({ transactions }: DashboardProps) {
   const netBalance = totalIncome - totalExpense;
 
   return (
-    <div>
-      <div>
-        <p>Total Income</p>
-        <p>+{totalIncome}</p>
-      </div>
-      <div>
-        <p>Total Expenses</p>
-        <p>-{totalExpense}</p>
-      </div>
-      <div>
-        <p>Net Balance</p>
-        <p>{netBalance}</p>
-      </div>
-    </div>
+    <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ p: 2 }}>
+      <Card sx={{ flex: 1 }}>
+        <CardContent>
+          <Typography color="text.secondary" gutterBottom>
+            Total Income
+          </Typography>
+          <Typography variant="h5" color="success.main">
+            +{totalIncome}
+          </Typography>
+        </CardContent>
+      </Card>
+ 
+      <Card sx={{ flex: 1 }}>
+        <CardContent>
+          <Typography color="text.secondary" gutterBottom>
+            Total Expenses
+          </Typography>
+          <Typography variant="h5" color="error.main">
+            -{totalExpense}
+          </Typography>
+        </CardContent>
+      </Card>
+ 
+      <Card sx={{ flex: 1 }}>
+        <CardContent>
+          <Typography color="text.secondary" gutterBottom>
+            Net Balance
+          </Typography>
+          <Typography
+            variant="h5"
+            color={netBalance >= 0 ? "success.main" : "error.main"}
+          >
+            {netBalance}
+          </Typography>
+        </CardContent>
+      </Card>
+    </Stack>
   );
 }

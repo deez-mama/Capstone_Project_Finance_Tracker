@@ -1,9 +1,14 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Stack, TextField, MenuItem, Button } from "@mui/material";
 import { salarySchema } from "../schema/salarySchema";
 import type { SalaryFormData } from "../schema/salarySchema";
 
-function AddSalaryForm({ onAddSalary }: { onAddSalary: (data: SalaryFormData) => void }) {
+function AddSalaryForm({
+  onAddSalary,
+}: {
+  onAddSalary: (data: SalaryFormData) => void;
+}) {
   const {
     register,
     handleSubmit,
@@ -20,35 +25,47 @@ function AddSalaryForm({ onAddSalary }: { onAddSalary: (data: SalaryFormData) =>
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label>Amount</label>
-        <input
+      <Stack spacing={2} sx={{ maxWidth: 400 }}>
+        <TextField
+          label="Amount"
           type="number"
-          step="0.01"
+          slotProps={{ htmlInput: { step: "0.01" } }}
           {...register("amount", { valueAsNumber: true })}
+          error={!!errors.amount}
+          helperText={errors.amount?.message}
+          fullWidth
         />
-        {errors.amount && <p>{errors.amount.message}</p>}
-      </div>
 
-      <div>
-        <label>Source</label>
-        <select {...register("source")}>
-          <option value="">Select source</option>
-          <option value="Job">Job</option>
-          <option value="Freelance">Freelance</option>
-          <option value="Business">Business</option>
-          <option value="Other">Other</option>
-        </select>
-        {errors.source && <p>{errors.source.message}</p>}
-      </div>
+        <TextField
+          select
+          label="Source"
+          defaultValue=""
+          {...register("source")}
+          error={!!errors.source}
+          helperText={errors.source?.message}
+          fullWidth
+        >
+          <MenuItem value="">Select source</MenuItem>
+          <MenuItem value="Job">Job</MenuItem>
+          <MenuItem value="Freelance">Freelance</MenuItem>
+          <MenuItem value="Business">Business</MenuItem>
+          <MenuItem value="Other">Other</MenuItem>
+        </TextField>
 
-      <div>
-        <label>Date Received (optional)</label>
-        <input type="date" {...register("dateReceived")} />
-        {errors.dateReceived && <p>{errors.dateReceived.message}</p>}
-      </div>
+        <TextField
+          label="Date Received (optional)"
+          type="date"
+          slotProps={{ inputLabel: { shrink: true } }}
+          {...register("dateReceived")}
+          error={!!errors.dateReceived}
+          helperText={errors.dateReceived?.message}
+          fullWidth
+        />
 
-      <button type="submit">Add Salary</button>
+        <Button type="submit" variant="contained">
+          Add Salary
+        </Button>
+      </Stack>
     </form>
   );
 }

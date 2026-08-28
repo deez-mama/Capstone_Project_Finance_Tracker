@@ -10,6 +10,7 @@ export default function App() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   return (
     <BrowserRouter>
+      <Nav />
       <Routes>
         <Route path="/" element={<Dashboard transactions={transactions} />} />
         <Route
@@ -22,7 +23,7 @@ export default function App() {
           }
         />
       </Routes>
-      <Nav />
+      
     </BrowserRouter>
   );
 }

@@ -1,9 +1,14 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Stack, TextField, MenuItem, Button } from "@mui/material";
 import { expenseSchema } from "../schema/expenseSchema";
 import type { ExpenseFormData } from "../schema/expenseSchema";
 
-function AddExpenseForm({ onAddExpense }: { onAddExpense: (data: ExpenseFormData) => void }) {
+function AddExpenseForm({
+  onAddExpense,
+}: {
+  onAddExpense: (data: ExpenseFormData) => void;
+}) {
   const {
     register,
     handleSubmit,
@@ -20,37 +25,48 @@ function AddExpenseForm({ onAddExpense }: { onAddExpense: (data: ExpenseFormData
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label>Amount</label>
-        <input
+      <Stack spacing={2} sx={{ maxWidth: 400 }}>
+        <TextField
+          label="Amount"
           type="number"
-          step="0.01"
+          slotProps={{ htmlInput: { step: "0.01" } }}
           {...register("amount", { valueAsNumber: true })}
+          error={!!errors.amount}
+          helperText={errors.amount?.message}
+          fullWidth
         />
-        {errors.amount && <p>{errors.amount.message}</p>}
-      </div>
 
-      <div>
-        <label>Category</label>
-        <select {...register("category")}>
-          <option value="">Select category</option>
-          <option value="Food">Food</option>
-          <option value="Transport">Transport</option>
-          <option value="Rent">Rent</option>
-          <option value="Utilities">Utilities</option>
-          <option value="Entertainment">Entertainment</option>
-          <option value="Other">Other</option>
-        </select>
-        {errors.category && <p>{errors.category.message}</p>}
-      </div>
+        <TextField
+          select
+          label="Category"
+          defaultValue=""
+          {...register("category")}
+          error={!!errors.category}
+          helperText={errors.category?.message}
+          fullWidth
+        >
+          <MenuItem value="">Select category</MenuItem>
+          <MenuItem value="Food">Food</MenuItem>
+          <MenuItem value="Transport">Transport</MenuItem>
+          <MenuItem value="Rent">Rent</MenuItem>
+          <MenuItem value="Utilities">Utilities</MenuItem>
+          <MenuItem value="Entertainment">Entertainment</MenuItem>
+          <MenuItem value="Other">Other</MenuItem>
+        </TextField>
 
-      <div>
-        <label>Description (optional)</label>
-        <input type="text" {...register("description")} />
-        {errors.description && <p>{errors.description.message}</p>}
-      </div>
+        <TextField
+          label="Description (optional)"
+          type="text"
+          {...register("description")}
+          error={!!errors.description}
+          helperText={errors.description?.message}
+          fullWidth
+        />
 
-      <button type="submit">Add Expense</button>
+        <Button type="submit" variant="contained">
+          Add Expense
+        </Button>
+      </Stack>
     </form>
   );
 }

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Stack, Button, Box } from "@mui/material";
 import AddExpenseForm from "./Expenditure";
 import AddSalaryForm from "./Earning";
 import TransactionList from "./TransactionList";
@@ -39,16 +40,29 @@ export default function GainorLoss({
   };
 
   return (
-    <div>
-      <button onClick={() => setActive("Earn")}>Add Earning </button>
-      <button onClick={() => setActive("Spent")}>Add Expenditure </button>
-
+    <Box sx={{ p: 2 }}>
+      <Stack direction="row" spacing={2} sx={{ mb: 2 }}>
+        <Button
+          variant={active === "Earn" ? "contained" : "outlined"}
+          onClick={() => setActive("Earn")}
+        >
+          Add Salary
+        </Button>
+        <Button
+          variant={active === "Spent" ? "contained" : "outlined"}
+          onClick={() => setActive("Spent")}
+        >
+          Add Expense
+        </Button>
+      </Stack>
+ 
       {active === "Earn" && <AddSalaryForm onAddSalary={handleAddSalary} />}
       {active === "Spent" && <AddExpenseForm onAddExpense={handleAddExpense} />}
-      {/* Only load this particular component when active has that value and it can only be set when clicking the button */}
-
-      <TransactionList transactions={transactions}/>
-    </div>
+ 
+      <Box sx={{ mt: 3 }}>
+        <TransactionList transactions={transactions} />
+      </Box>
+    </Box>
   );
 }
 
