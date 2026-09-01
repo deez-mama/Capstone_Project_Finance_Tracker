@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Header from "./components/Header";
 import GainorLoss from "./components/GainOrloss";
 import Dashboard from "./components/Dashboard";
 import type { Transaction } from "./schema/transaction";
