@@ -14,7 +14,10 @@ const app = express();
 app.use(cors());          // allow the frontend's origin to call this API
 app.use(express.json());  // parse incoming JSON bodies into req.body
 
+import authRoutes from "./routes/authRoutes";
+app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
+
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

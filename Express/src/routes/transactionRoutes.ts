@@ -1,4 +1,3 @@
-// src/routes/transactionRoutes.ts
 import { Router } from "express";
 import {
   getTransactions,
@@ -6,12 +5,13 @@ import {
   updateTransaction,
   deleteTransaction,
 } from "../controllers/transactionController";
+import { authMiddleware } from "../middleware/authMiddleware";
 
 const router = Router();
 
-router.get("/", getTransactions);
-router.post("/", createTransaction);
-router.put("/:id", updateTransaction);
-router.delete("/:id", deleteTransaction);
+router.get("/", authMiddleware, getTransactions);
+router.post("/", authMiddleware, createTransaction);
+router.put("/:id", authMiddleware, updateTransaction);
+router.delete("/:id", authMiddleware, deleteTransaction);
 
 export default router;
