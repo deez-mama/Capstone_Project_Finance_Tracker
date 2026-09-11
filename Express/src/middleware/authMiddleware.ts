@@ -1,4 +1,3 @@
-// src/middleware/authMiddleware.ts
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
@@ -8,7 +7,6 @@ export interface AuthRequest extends Request {
 
 export const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => {
 
-    console.log("authMiddleware hit");
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
