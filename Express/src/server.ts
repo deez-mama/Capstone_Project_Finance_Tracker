@@ -17,6 +17,7 @@ app.use(express.json());  // parse incoming JSON bodies into req.body
 import authRoutes from "./routes/authRoutes";
 app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
+app.get("/health", (_req, res) => res.status(200).json({ status: "ok" }));
 
 
 const PORT = process.env.PORT || 5001;
