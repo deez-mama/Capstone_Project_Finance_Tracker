@@ -3,13 +3,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { TextField, Button, Box, Alert } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import { api } from "../api/axios";
 import { registerSchema, type RegisterFormData } from "../schema/registerSchema";
 
 export default function RegisterForm() {
   const [error, setError] = useState<string | null>(null);
-  const { login } = useAuth();
   const navigate = useNavigate();
 
   const {
